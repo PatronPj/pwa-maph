@@ -1,0 +1,275 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #563d7c;">
+    <a class="navbar-brand" href="" style="color:white;">
+        <img src="assets/logo1.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+        Finish Depression
+    </a>
+    <button class="navbar-toggler btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+        aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="navbarTogglerDemo02">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02" [ngbCollapse]="isCollapsed">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color:white;">Dashboard <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color:white;">Stimmung</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color:white;">Work-Life-Balance</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <!-- Example single danger button -->
+                <div class="btn-group">
+                    <button (click)="getCurrentData()" type="button" class="btn btn-outline-warning dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div #imgUrl class="dropdown-item">
+                            <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCuVMUVlRYbWFWXsq8h6xomJxMG5dq0BWEWmJaFNngsG_e4My"
+                                alt="Profilbild">
+                        </div>
+                        <div #username class="dropdown-item">
+                        </div>
+                        <div #email class="dropdown-item">
+                        </div>
+                        <div class="dropdown-item">
+                            <button (click)="logOut()" type="button" class="btn btn-danger">Abmelden</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--Main Content-->
+<div class="row" style="background-color: #ffc107;">
+    <div class="col-sm-7">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="jumbotron jumbotron-fluid" style="background-color: #ffc107; padding: 1rem 1rem;">
+                    <div class="container">
+                        <h1 class="display-4">Willkommen, {{_username}}</h1>
+                        <p class="lead">Heute, am {{_currentDate}} erzielten Sie bereits:</p>
+                        <p class="lead">
+                            <img src="assets/steps.png" width="40" height="40" alt="Schritte">
+                            Schritte: 5.332
+                        </p>
+                        <p class="lead">
+                            <img src="assets/distance.png" width="40" height="40" alt="Distanz">
+                            Distanz: 3.2
+                        </p>
+                        <p class="lead">
+                            <img src="assets/burn.png" width="40" height="40" alt="Kalorien">
+                            Kalorien: 400 kcal
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Achievements-->
+    <div class="col-sm-5" style="padding: 1rem 3rem;">
+        <h1 class="display-4">Belohnungen</h1>
+        <div *ngIf="_achieveFirstMedal" style="display:inline;">
+            <img src="assets/bronzeMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Herzlichen Glückwunsch, Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+        </div>
+        <div *ngIf="_achieveSecondMedal" style="display:inline;">
+            <img src="assets/silverMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Herzlichen Glückwunsch, Sie haben heute 2.500 Schritte erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+        </div>
+        <div *ngIf="_achieveThirdMedal" style="display:inline;">
+            <img src="assets/goldMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Herzlichen Glückwunsch, Sie haben heute 100% in allen Bereichen erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+        </div>
+
+        <div *ngIf="!_achieveFirstMedal" style="display:inline;">
+            <img src="assets/defaultMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Keine Belohnung erzielt. Melden Sie sich jeden Tag an, um diese Belohnung zu erzielen.">
+        </div>
+        <div *ngIf="!_achieveSecondMedal" style="display:inline;">
+            <img src="assets/defaultMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Keine Belohnung erzielt. Erzielen Sie 2.500 Schritte, um diese Belohnung zu erzielen.">
+        </div>
+        <div *ngIf="!_achieveThirdMedal" style="display:inline;">
+            <img src="assets/defaultMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+                title="Keine Belohnung erzielt. Erzielen Sie 100% in allen möglichen Bereichen, um diese Belohnung zu erzielen.">
+        </div>
+    </div>
+</div>
+<!--Achievements END-->
+
+<div class="row">
+    <div class="col-sm-6" style="padding: 0rem 3rem;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img src="assets/steps.png" width="40" height="40" alt="Schritte">
+                    Erzielen Sie 10.000 Schritte am Tag
+                </h5>
+                <p class="card-text">Ihnen bleiben noch: {{_remainingTime}}</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                        aria-valuemax="100">25%</div>
+                </div>
+                <br>
+                <!-- Button trigger modal walking modal-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#walkingModal">
+                    Übung starten
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" style="padding: 0rem 3rem;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img src="assets/heartrate.png" width="40" height="40" alt="Schritte">
+                    Die optimale Herzfrequenz liegt bei: 60-70
+                </h5>
+                <p class="card-text">Ihre aktuelle Herzfrequenz</p>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0"
+                        aria-valuemax="100">65</div>
+                </div>
+                <br>
+                <!-- Button trigger modal breathing modal-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#breathingModal">
+                    Übung starten
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12" style="padding: 3rem 3rem;">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
+
+<!-- Modal Belohung for first login of the day-->
+<div class="modal fade" #modal id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Erste Belohnung gesammelt.
+                Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie
+                aktiv, um weitere Belohungen zu erzielen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for breathing workout-->
+<div class="modal fade" id="breathingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Atmungsübung</h5>
+                <div *ngIf="showBtns">
+                    <button type="button" class="btn btn-success" (click)="hideBreathing()">
+                        Starten
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="finishedBreathing = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="!showBreathing">
+                    <div *ngIf="!finishedBreathing">
+                        Begeben Sie sich an einen ruhigen Platz und konzentrieren Sie sich 1 Minute lang auf Ihren
+                        Atem.
+                    </div>
+                </div>
+                <div *ngIf="finishedBreathing">
+                    Super, {{_username}}! Sie haben es geschafft! Nun sind Sie tiefenentspannt.
+                </div>
+
+                <div *ngIf="showBreathing">
+                    <div align="center">
+                        Noch {{ _counter}} Sekunden...
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="orb orb_1">
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div align="center">
+                        {{ _breathingHelp }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div *ngIf="showBtns">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="finishedBreathing = false">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for walking workout-->
+<div class="modal fade" id="walkingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Laufübung</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="text-center">
+                                <img src="assets/walking.gif" width="60" height="90" alt="Laufen">
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            Laufen macht <b>glücklich</b>: Sie sind draußen, spüren Ihren Körper, haben einen Ausgleich
+                            zu
+                            Ihrer hektischen Welt.
+                            <br>
+                            Bevor Sie loslaufen,setzen Sie sich ein konkretes Ziel: <i>"Ich werde mindestens 10 Minuten
+                                laufen/spazieren gehen!"</i>.
+                            <br>
+                            Finden Sie Ihren Laufrhythmus, indem Sie dieser Übung <b>täglich</b> nachkommen.
+                            <br>
+                            Nach Ihrem Lauf, sehen Sie Ihre Verbesserungen auf dem Dashboard.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
