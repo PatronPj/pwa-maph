@@ -9,6 +9,7 @@ export class LoginserviceService {
   userEmail: string = "User-Email";
   firstMedal: string = "kiro";
   loggedIn: boolean = false;
+  steps: number = 651;
 
   constructor() { }
 

@@ -53,16 +53,14 @@ export class DashboardComponent implements OnInit {
   
   isFirstMedal: string;
 
+  stepsCount: number;
+
   LineChart = [];
 
   ngOnInit() {
     this.isFirstMedal = this.cookie.get("firstMedal");
     console.log("Heute ist der: "+new Date().toLocaleDateString()+ " Cookie sagt: "+ this.isFirstMedal)
-
-    this.http.get('https://www.googleapis.com/fitness/v1/users/me/dataSources').subscribe(data => {
-      console.log(data);      
-    });
-
+    this.stepsCount = this._loginservice.steps;
 
     this._currentDate = new Date().toLocaleDateString();
     this._username = this._loginservice.userName;
@@ -104,27 +102,6 @@ export class DashboardComponent implements OnInit {
       this._achieveSecondMedal = false;
       this._achieveThirdMedal = false;
     }
-
-/*
-    if (this._medal.match(new Date().toLocaleDateString()) === null) {
-      console.log("false");
-      this._loginservice.setFirstMedal(this._currentDate);
-      this._loginservice.firstMedal = this._currentDate;
-      this._medal = this._loginservice.getFirstMedal();
-      console.log("medal jetzt " + this._medal);
-      this._achieveFirstMedal = false;
-      this._achieveSecondMedal = false;
-      this._achieveThirdMedal = false;
-    }
-    else {
-      console.log("true");
-      this._achieveFirstMedal = true;
-      $(this.modal.nativeElement).modal('show');
-
-      //this._achieveSecondMedal = true;
-      //this._achieveThirdMedal = true;
-    }
-*/
   }
   hideBreathing(): void {
     if (this.showBreathing) {
@@ -180,7 +157,6 @@ export class DashboardComponent implements OnInit {
     this.ngZone.run(() => this.router.navigate(['/'])).then();
   }
 }
-
 export class AppComponent {
   isCollapsed = false;
 }
