@@ -58,15 +58,15 @@
                         <p class="lead">Heute, am {{_currentDate}} erzielten Sie bereits:</p>
                         <p class="lead">
                             <img src="assets/steps.png" width="40" height="40" alt="Schritte">
-                            Schritte: 5.332
+                            Schritte: {{stepsCount}}
                         </p>
                         <p class="lead">
                             <img src="assets/distance.png" width="40" height="40" alt="Distanz">
-                            Distanz: 3.2
+                            Distanz: {{distanceCount}} Meter
                         </p>
                         <p class="lead">
                             <img src="assets/burn.png" width="40" height="40" alt="Kalorien">
-                            Kalorien: 400 kcal
+                            Kalorien: {{caloriesCount}} kcal
                         </p>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <p class="card-text">Ihnen bleiben noch: {{_remainingTime}}</p>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                        aria-valuemax="100">25%</div>
+                        aria-valuemax="100">{{stepsCount/100}}%</div>
                 </div>
                 <br>
                 <!-- Button trigger modal walking modal-->

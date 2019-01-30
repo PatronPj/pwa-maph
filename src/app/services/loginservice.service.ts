@@ -9,14 +9,24 @@ export class LoginserviceService {
   userEmail: string = "User-Email";
   firstMedal: string = "kiro";
   loggedIn: boolean = false;
-  steps: number = 651;
+  steps: any = 651;
+  distance: any = 0.4;
+  calories: any = 187;
 
   constructor() { }
+
+  getSteps(){
+    return this.steps;
+  }
+  setSteps(value: any){
+    this.steps = value;
+  }
+
+  setValue = function (val) { this.firstMedal = val }; //setter
 
   getFirstMedal(){
     return this.firstMedal;
   }
-  setValue = function (val) { this.firstMedal = val }; //setter
 
   setFirstMedal(value: string){
     this.firstMedal = value;

@@ -17,7 +17,7 @@ declare let $: any;
 
 export class DashboardComponent implements OnInit {
   constructor(private ngZone: NgZone, private router: Router, private _loginservice: LoginserviceService,
-    private renderer: Renderer2, private http: HttpClient, private cookie: CookieService){}
+    private renderer: Renderer2, private http: HttpClient, private cookie: CookieService) { }
 
   @ViewChild('username') usernameEl: ElementRef;
   @ViewChild('email') emailEl: ElementRef;
@@ -50,17 +50,27 @@ export class DashboardComponent implements OnInit {
   _achieveThirdMedal: boolean;
 
   _achieveFirstMedalModal: boolean;
-  
+
   isFirstMedal: string;
 
-  stepsCount: number;
+  stepsCount: any;
+  distanceCount: any;
+  caloriesCount: any;
 
   LineChart = [];
 
   ngOnInit() {
+    let self = this;
+
     this.isFirstMedal = this.cookie.get("firstMedal");
-    console.log("Heute ist der: "+new Date().toLocaleDateString()+ " Cookie sagt: "+ this.isFirstMedal)
-    this.stepsCount = this._loginservice.steps;
+    console.log("Heute ist der: " + new Date().toLocaleDateString() + " Cookie sagt: " + this.isFirstMedal)
+
+    setTimeout(function () {
+      self.stepsCount = self._loginservice.steps;
+      self.distanceCount = self._loginservice.distance;
+      self.caloriesCount = self._loginservice.calories;
+    }, 1500);
+
 
     this._currentDate = new Date().toLocaleDateString();
     this._username = this._loginservice.userName;
@@ -83,7 +93,7 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    if(this.isFirstMedal === new Date().toLocaleDateString()){
+    if (this.isFirstMedal === new Date().toLocaleDateString()) {
       this._achieveFirstMedal = true;
       console.log("FirstMedal achieved: true");
       if (this.cookie.get("firstMedalModal").match("true") === null) {
@@ -91,7 +101,7 @@ export class DashboardComponent implements OnInit {
         $(this.modal.nativeElement).modal('show');
       }
     }
-    else{
+    else {
       this.cookie.set("firstMedalModal", "true");
       console.log("false");
       this._loginservice.setFirstMedal(this._currentDate);
