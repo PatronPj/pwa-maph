@@ -38,7 +38,7 @@
                         <div #email class="dropdown-item">
                         </div>
                         <div class="dropdown-item">
-                            <button (click)="logOut()" type="button" class="btn btn-danger">Abmelden</button>
+                            <button (click)="logOut()" type="button" class="btn btn-outline-danger">Abmelden</button>
                         </div>
                     </div>
                 </div>
@@ -77,16 +77,16 @@
     <div class="col-sm-5" style="padding: 1rem 3rem;">
         <h1 class="display-4">Belohnungen</h1>
         <div *ngIf="_achieveFirstMedal" style="display:inline;">
-            <img data-toggle="modal" data-target="#exampleModalCenter" src="assets/bronzeMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Belohnung bereits erzielt."
-                title="Herzlichen Glückwunsch, Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+            <img data-toggle="modal" data-target="#exampleModalCenter" src="assets/bronzeMedal.png" width="80" height="80"
+                class="d-inline-block align-top" alt="Belohnung bereits erzielt." title="Herzlichen Glückwunsch, Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
         </div>
         <div *ngIf="_achieveSecondMedal" style="display:inline;">
-            <img src="assets/silverMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Belohnung bereits erzielt."
-                title="Herzlichen Glückwunsch, Sie haben heute 2.500 Schritte erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+            <img data-toggle="modal" data-target="#stepsModalCenter" src="assets/silverMedal.png" width="90" height="90"
+                class="d-inline-block align-top" alt="Belohnung bereits erzielt." title="Herzlichen Glückwunsch, Sie haben heute 2.500 Schritte erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
         </div>
         <div *ngIf="_achieveThirdMedal" style="display:inline;">
-            <img src="assets/goldMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Belohnung bereits erzielt."
-                title="Herzlichen Glückwunsch, Sie haben heute 100% in allen Bereichen erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
+            <img data-toggle="modal" data-target="#steps2ModalCenter" src="assets/goldMedal.png" width="100" height="100"
+                class="d-inline-block align-top" alt="Belohnung bereits erzielt." title="Herzlichen Glückwunsch, Sie haben heute 100% in allen Bereichen erzielt. Bleiben Sie aktiv, um weitere Belohungen zu erzielten.">
         </div>
 
         <div *ngIf="!_achieveFirstMedal" style="display:inline;">
@@ -154,29 +154,6 @@
     </div>
 </div>
 
-<!-- Modal Belohung for first login of the day-->
-<div class="modal fade" #modal id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Erste Belohnung gesammelt.
-                Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie
-                aktiv, um weitere Belohungen zu erzielen.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal for breathing workout-->
 <div class="modal fade" id="breathingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -185,9 +162,6 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Atmungsübung</h5>
                 <div *ngIf="showBtns">
-                    <button type="button" class="btn btn-success" (click)="hideBreathing()">
-                        Starten
-                    </button>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="finishedBreathing = false">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -225,7 +199,10 @@
             </div>
             <div class="modal-footer">
                 <div *ngIf="showBtns">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="finishedBreathing = false">Schließen</button>
+                    <button type="button" class="btn btn-outline-warning" (click)="hideBreathing()">
+                        Starten
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal" (click)="finishedBreathing = false">Schließen</button>
                 </div>
             </div>
         </div>
@@ -268,7 +245,76 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Belohung for first login of the day-->
+<div class="modal fade" #modal id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Erste Belohnung gesammelt.
+                Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie
+                aktiv, um weitere Belohungen zu erzielen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Belohung for over 5000 steps-->
+<div class="modal fade" #modal2 id="stepsModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Zweite Belohnung gesammelt.
+                Sie haben heute bereits 5.000 Schritte erzielt. Bleiben Sie
+                aktiv, um weitere Belohungen zu erzielen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Belohung for over 10000 steps-->
+<div class="modal fade" #modal3 id="steps2ModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Dritte Belohnung gesammelt.
+                Sie haben heute bereits 10.000 Schritte erzielt. Bleiben Sie auch in den kommenden Tagen
+                aktiv, um weitere Belohungen zu erzielen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
             </div>
         </div>
     </div>

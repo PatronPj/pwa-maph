@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('imgUrl') profileImgUrlEl: ElementRef;
 
   @ViewChild('modal') modal: ElementRef;
+  @ViewChild('modal2') modal2: ElementRef;
+  @ViewChild('modal3') modal3: ElementRef;
 
   showModal() {
     // Show modal with jquery
@@ -63,13 +65,45 @@ export class DashboardComponent implements OnInit {
     let self = this;
 
     this.isFirstMedal = this.cookie.get("firstMedal");
-    console.log("Heute ist der: " + new Date().toLocaleDateString() + " Cookie sagt: " + this.isFirstMedal)
+    console.log("Heute ist der: " + new Date().toLocaleDateString() + " Cookie sagt: " + this.isFirstMedal);
 
     setTimeout(function () {
       self.stepsCount = self._loginservice.steps;
       self.distanceCount = self._loginservice.distance;
       self.caloriesCount = self._loginservice.calories;
+
+      if (self.stepsCount >= 5000) {
+        self._achieveSecondMedal = true;
+
+        if (!self.cookie.get("secondMedalModal").match("true")) {
+          console.log("AMKKKKKKK");
+          self.cookie.set("secondMedalModal", "true");
+          $(self.modal2.nativeElement).modal('show');
+        }
+        console.log("SecondMedal achieved: true");
+      }
+      else {
+        self._achieveSecondMedal = false;
+        self.cookie.set("secondMedalModal", "false");
+        console.log("false");
+      }
+
+      if (self.stepsCount >= 10000) {
+        self._achieveThirdMedal = true;
+
+        if (!self.cookie.get("thirdMedalModal").match("true")) {
+          self.cookie.set("thirdMedalModal", "true");
+          $(self.modal3.nativeElement).modal('show');
+        }
+        console.log("ThirdMedal achieved: true");
+      }
+      else {
+        self._achieveThirdMedal = false;
+        self.cookie.set("thirdMedalModal", "false");
+        console.log("false");
+      }
     }, 1500);
+
 
 
     this._currentDate = new Date().toLocaleDateString();
@@ -96,21 +130,19 @@ export class DashboardComponent implements OnInit {
     if (this.isFirstMedal === new Date().toLocaleDateString()) {
       this._achieveFirstMedal = true;
       console.log("FirstMedal achieved: true");
-      if (this.cookie.get("firstMedalModal").match("true") === null) {
+      if (!this.cookie.get("firstMedalModal").match("true")) {
         this.cookie.set("firstMedalModal", "true");
         $(this.modal.nativeElement).modal('show');
       }
     }
     else {
-      this.cookie.set("firstMedalModal", "true");
+      this.cookie.set("firstMedalModal", "false");
       console.log("false");
       this._loginservice.setFirstMedal(this._currentDate);
       this._loginservice.firstMedal = this._currentDate;
       this._medal = this._loginservice.getFirstMedal();
       console.log("medal jetzt " + this._medal);
       this._achieveFirstMedal = false;
-      this._achieveSecondMedal = false;
-      this._achieveThirdMedal = false;
     }
   }
   hideBreathing(): void {

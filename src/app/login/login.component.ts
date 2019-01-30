@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-
 import { LoginserviceService } from '../services/loginservice.service'
-import { forEach } from '@angular/router/src/utils/collection';
 
 declare const gapi: any;
 
@@ -18,7 +15,7 @@ declare const gapi: any;
 export class LoginComponent implements OnInit {
 
   constructor(private ngZone: NgZone, private router: Router, private _loginservice: LoginserviceService,
-    private cookie: CookieService, private http: HttpClient) {
+    private cookie: CookieService) {
   }
 
   ngOnInit() {
