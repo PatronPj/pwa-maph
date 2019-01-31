@@ -102,8 +102,31 @@ export class DashboardComponent implements OnInit {
         self.cookie.set("thirdMedalModal", "false");
         console.log("false");
       }
-    }, 1500);
 
+      self.LineChart = new Chart('lineChart', {
+        type: 'line',
+        data: {
+          labels: [self._loginservice.lasteThreeDays[0], self._loginservice.lasteThreeDays[1], self._loginservice.lasteThreeDays[2], self._loginservice.lasteThreeDays[3]],
+          datasets: [
+            {
+              label: "Schritte",
+              borderColor: 'rgb(255, 99, 132)',
+              data: [self._loginservice.firstOfLastOfThree, self._loginservice.secondOfLastOfThree, self._loginservice.thirdOfLastOfThree, self.stepsCount]
+            },
+            {
+              label: "Distanz (alle Aktivitäten) in Meter",
+              borderColor: 'rgb(54, 162, 235)',
+              data: [self._loginservice.distanceFirstOfLastOfThree, self._loginservice.distanceSecondOfLastOfThree, self._loginservice.distanceThirdOfLastOfThree, self.distanceCount]
+            },
+            {
+              label: "Kalorien (alle Aktivitäten) in kcal",
+              borderColor: 'rgb(75, 192, 192)',
+              data: [self._loginservice.caloriesFirstOfLastOfThree, self._loginservice.caloriesSecondOfLastOfThree, self._loginservice.caloriesThirdOfLastOfThree, self.caloriesCount]
+            }
+          ]
+        }
+      });
+    }, 5000);
 
 
     this._currentDate = new Date().toLocaleDateString();
@@ -114,18 +137,7 @@ export class DashboardComponent implements OnInit {
 
     this._medal = this._loginservice.getFirstMedal();
 
-    this.LineChart = new Chart('lineChart', {
-      type: 'line',
-      data: {
-        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
-        datasets: [
-          {
-            label: "Schlaf",
-            data: [10, 8, 6, 5, 12, 8, 16, 17, 6, 7, 6, 10]
-          }
-        ]
-      }
-    });
+    
 
     if (this.isFirstMedal === new Date().toLocaleDateString()) {
       this._achieveFirstMedal = true;

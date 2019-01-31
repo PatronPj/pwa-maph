@@ -88,9 +88,22 @@ export class LoginComponent implements OnInit {
         this.loggedInAlready = this._loginservice.loggedIn;
         this.cookie.set("firstMedal", new Date().toLocaleDateString());
 
-        this.makeApiCallForDistance();
         this.makeApiCallForSteps();
+        this.makeApiCallForDistance();
         this.makeApiCallForCalories();
+
+        //for LineGraph
+        this.makeApiCallForFirstOfLastThreeDays();
+        this.makeApiCallForSecondOfLastThreeDays();
+        this.makeApiCallForThridOfLastThreeDays();
+
+        this.makeApiCallForCaloriesForFirstOfLastThreeDays();
+        this.makeApiCallForCaloriesForSecondOfLastThreeDays();
+        this.makeApiCallForCaloriesForThridOfLastThreeDays();
+
+        this.makeApiCallForDistanceForFirstOfLastThreeDays();
+        this.makeApiCallForDistanceForSecondOfLastThreeDays();
+        this.makeApiCallForDistanceForThridOfLastThreeDays();
 
         this.ngZone.run(() => this.router.navigate(['/dashboard'])).then();
       }, (error) => {
@@ -193,9 +206,287 @@ export class LoginComponent implements OnInit {
     return promise;
   }
 
+  public makeApiCallForFirstOfLastThreeDays() {
+    var stepsCount = 0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    let self = this;
+    console.log("hier: "+datasetID);
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          //correct SourceId, to get steps Count
+          dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          //console.log('response body:, ' + response.body);
+          for (let index = 0; index < response.result.point.length; index++) {
+            stepsCount += response.result.point[index].value[0].intVal;
+          }
+          self._loginservice.firstOfLastOfThree = stepsCount;
+          console.log("steps first of last three days gesamt was: " + stepsCount);
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForSecondOfLastThreeDays() {
+    var stepsCount = 0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    let self = this;
+    console.log("hier: "+datasetID);
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          //correct SourceId, to get steps Count
+          dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          //console.log('response body:, ' + response.body);
+          for (let index = 0; index < response.result.point.length; index++) {
+            stepsCount += response.result.point[index].value[0].intVal;
+          }
+          self._loginservice.secondOfLastOfThree = stepsCount;
+          console.log("steps second of last three days gesamt was: " + stepsCount);
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForThridOfLastThreeDays() {
+    var stepsCount = 0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    let self = this;
+    console.log("hier: "+datasetID);
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          //correct SourceId, to get steps Count
+          dataSourceId: 'derived:com.google.step_count.delta:com.google.android.gms:estimated_steps',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          //console.log('response body:, ' + response.body);
+          for (let index = 0; index < response.result.point.length; index++) {
+            stepsCount += response.result.point[index].value[0].intVal;
+          }
+          self._loginservice.thirdOfLastOfThree = stepsCount;
+          console.log("steps third of last three days gesamt was: " + stepsCount);
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForCaloriesForFirstOfLastThreeDays() {
+    var caloriesCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            caloriesCount += response.result.point[index].value[0].fpVal;
+          }
+          var caloriesRound = Math.round(caloriesCount * 100) / 100;
+          self._loginservice.caloriesFirstOfLastOfThree = Math.floor(caloriesRound);
+          console.log("calories first of last three days gesamt was: " + Math.floor(caloriesRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForCaloriesForSecondOfLastThreeDays() {
+    var caloriesCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            caloriesCount += response.result.point[index].value[0].fpVal;
+          }
+          var caloriesRound = Math.round(caloriesCount * 100) / 100;
+          self._loginservice.caloriesSecondOfLastOfThree = Math.floor(caloriesRound);
+          console.log("calories second of last three days gesamt was: " + Math.floor(caloriesRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForCaloriesForThridOfLastThreeDays() {
+    var caloriesCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.calories.expended:com.google.android.gms:merge_calories_expended',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            caloriesCount += response.result.point[index].value[0].fpVal;
+          }
+          var caloriesRound = Math.round(caloriesCount * 100) / 100;
+          self._loginservice.caloriesThirdOfLastOfThree = Math.floor(caloriesRound);
+          console.log("calories third of last three days gesamt was: " + Math.floor(caloriesRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForDistanceForFirstOfLastThreeDays() {
+    var distanceCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            distanceCount += response.result.point[index].value[0].fpVal;
+          }
+          var distanceRound = Math.round(distanceCount * 100) / 100;
+
+          self._loginservice.distanceFirstOfLastOfThree = Math.floor(distanceRound);
+          console.log("distance first of last three days gesamt was: " + Math.floor(distanceRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForDistanceForSecondOfLastThreeDays() {
+    var distanceCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            distanceCount += response.result.point[index].value[0].fpVal;
+          }
+          var distanceRound = Math.round(distanceCount * 100) / 100;
+
+          self._loginservice.distanceSecondOfLastOfThree = Math.floor(distanceRound);
+          console.log("distance second of last three days gesamt was: " + Math.floor(distanceRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+  public makeApiCallForDistanceForThridOfLastThreeDays() {
+    var distanceCount = 0.0;
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    let self = this;
+
+    var promise = new Promise((resolve, reject) => {
+      gapi.client.load('fitness', 'v1', () => {
+        this.request = gapi.client.fitness.users.dataSources.datasets.get({
+          userId: 'me',
+          dataSourceId: 'derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta',
+          //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
+          datasetId: datasetID,
+        }).then(function (response) {
+          for (let index = 0; index < response.result.point.length; index++) {
+            distanceCount += response.result.point[index].value[0].fpVal;
+          }
+          var distanceRound = Math.round(distanceCount * 100) / 100;
+
+          self._loginservice.distanceThirdOfLastOfThree = Math.floor(distanceRound);
+          console.log("distance third of last three days gesamt was: " + Math.floor(distanceRound));
+
+          resolve();
+        }, function (reason) {
+          console.log('Error: ' + reason.result.error.message + " -----");
+          reject();
+        });
+      });
+    });
+    return promise;
+  }
+
+
   ngAfterViewInit() {
     this.googleInit();
     this.handleClientLoad();
+    this.setLastThreeDays();
   }
 
   routeToDashboard(): void {
@@ -205,6 +496,35 @@ export class LoginComponent implements OnInit {
   logOut(): void {
     this._loginservice.loggedIn = false;
     this.ngOnInit();
+  }
+
+  private setLastThreeDays() {
+    var result = [] as string[];
+    var month = new Array();
+    month[0] = "Januar";
+    month[1] = "Februar";
+    month[2] = "März";
+    month[3] = "April";
+    month[4] = "Ma";
+    month[5] = "Juni";
+    month[6] = "Juli";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "Oktober";
+    month[10] = "November";
+    month[11] = "Dezember";
+    for (var i = 0; i < 4; i++) {
+      var d = new Date();
+      if (i === 0) {
+        result.push("Heute");
+      }
+      else {
+        d.setDate(d.getDate() - i);
+        result.push(d.getDate().toString() + "." + month[d.getMonth()]);
+      }
+    }
+    this._loginservice.lasteThreeDays = result.sort();
+    console.log("Letzten 3 Tage: " + result.sort());
   }
 
   private setStartAndEndTimeInNanoSeconds(): any {
@@ -233,6 +553,30 @@ export class LoginComponent implements OnInit {
     startTimeNanoSec.setSeconds(0);
     var res = startTimeNanoSec.getTime() + "000000" + "-" + endTimeNanoSec;
     return res;
+  }
+
+  private setStartAndEndTimeInNanoSecondsForLastThreeDays(start: number, end: number): any {
+    var tmpStartTime = new Date();
+    var tmpEndTime = new Date();
+
+    var result = "";
+
+    for (var i = 0; i < 4; i++) {
+      if (i === end) {
+        tmpEndTime.setDate(tmpEndTime.getDate() - i)
+        tmpEndTime.setHours(0);
+        tmpEndTime.setMinutes(0);
+        tmpEndTime.setSeconds(0);
+      }
+      else if (i === start) {
+        tmpStartTime.setDate(tmpStartTime.getDate() - i)
+        tmpStartTime.setHours(0);
+        tmpStartTime.setMinutes(0);
+        tmpStartTime.setSeconds(0);
+      }
+    }
+    result = tmpEndTime.getTime() + "000000"+"-"+tmpStartTime.getTime() + "000000";
+    return result;
   }
 
 }

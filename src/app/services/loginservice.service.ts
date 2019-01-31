@@ -12,6 +12,19 @@ export class LoginserviceService {
   steps: any = 651;
   distance: any = 0.4;
   calories: any = 187;
+  lasteThreeDays: string[] = ["1.Februar", "2.Februar", "3.Februar", "Heute"];
+  //steps
+  firstOfLastOfThree: any = 6510;
+  secondOfLastOfThree: any = 9810;
+  thirdOfLastOfThree: any = 7810;
+  //distances
+  distanceFirstOfLastOfThree: any = 9510;
+  distanceSecondOfLastOfThree: any = 5810;
+  distanceThirdOfLastOfThree: any = 9810;
+  //calories
+  caloriesFirstOfLastOfThree: any = 794;
+  caloriesSecondOfLastOfThree: any = 344;
+  caloriesThirdOfLastOfThree: any = 874;
 
   constructor() { }
 
