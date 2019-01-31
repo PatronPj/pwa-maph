@@ -90,21 +90,24 @@
         </div>
 
         <div *ngIf="!_achieveFirstMedal" style="display:inline;">
-            <img src="assets/defaultMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+            <img src="assets/defaultMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
                 title="Kein Erfolg erzielt. Melden Sie sich jeden Tag an, um diesen Erfolg zu erzielen.">
         </div>
         <div *ngIf="!_achieveSecondMedal" style="display:inline;">
-            <img src="assets/defaultMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+            <img src="assets/defaultMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
                 title="Kein Erfolg erzielt. Erzielen Sie 5.000 Schritte, um diesen Erfolg zu erzielen.">
         </div>
         <div *ngIf="!_achieveThirdMedal" style="display:inline;">
-            <img src="assets/defaultMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Belohnung noch nicht erzielt."
+            <img src="assets/defaultMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
                 title="Kein Erfolg erzielt. Erzielen Sie 10.000 Schritte, um diesen Erfolg zu erzielen.">
         </div>
     </div>
 </div>
 <!--Achievements END-->
 
+<br>
+<br>
+<br>
 <div class="row">
     <div class="col-sm-6" style="padding: 0rem 3rem;">
         <div class="card">
@@ -148,6 +151,23 @@
     </div>
 </div>
 
+<br>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-sm-7">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="jumbotron jumbotron-fluid" style="background-color: #ffc107; padding: 1rem 1rem;">
+                    <div class="container">
+                        <h1 class="display-4">Daten der letzten drei Tage:</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-12" style="padding: 3rem 3rem;">
         <canvas id="lineChart"></canvas>
@@ -229,11 +249,13 @@
                             </div>
                         </div>
                         <div class="col-md-10">
-                            Laufen macht <b>glücklich</b>: Sie sind draußen, spüren Ihren Körper, haben einen Ausgleich
+                            Laufen macht <b>glücklich</b>: Sie sind draußen, spüren Ihren Körper, haben einen
+                            Ausgleich
                             zu
                             Ihrer hektischen Welt.
                             <br>
-                            Bevor Sie loslaufen,setzen Sie sich ein konkretes Ziel: <i>"Ich werde mindestens 10 Minuten
+                            Bevor Sie loslaufen,setzen Sie sich ein konkretes Ziel: <i>"Ich werde mindestens 10
+                                Minuten
                                 laufen/spazieren gehen!"</i>.
                             <br>
                             Finden Sie Ihren Laufrhythmus, indem Sie dieser Übung <b>täglich</b> nachkommen.
@@ -315,6 +337,59 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal AI between 3.000 and 5.000 steps-->
+<div class="modal fade" #modal4 id="airFirstModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nehmen Sie sich die Zeit, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Ihnen fehlen nur noch einige Schritte, um die 5.000 Schritte zu erreichen. Somit würden Sie Ihren
+                zweiten Erfolg für heute erzielen.
+                Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto besser werden
+                Sie
+                sich fühlen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal AI between 8.000 and 10.000 steps-->
+<div class="modal fade" #modal5 id="airSecondModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nehmen Sie sich die Zeit, {{_username}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Starke Leistung, Sie sind auf dem besten Wege die 10.000 Schritte zu erzielen. Ihnen fehlen nur
+                noch
+                einige Schritte. Um Ihren dritten Erfolg für den heutigen Tag zu meistern, müssen Sie die 10.000
+                Schritte
+                erzielen.
+                Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto besser werden
+                Sie
+                sich fühlen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
             </div>
         </div>
     </div>
