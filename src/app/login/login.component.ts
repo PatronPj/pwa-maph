@@ -71,20 +71,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public loading(){
-    if(this.load){
+  public loading() {
+    if (this.load) {
       this.load = false;
-      console.log("loading true amk")
     }
-    else{
+    else {
       this.load = true;
-      console.log("loading false amk")
-      setTimeout(function () {
-        console.log("loading timeout amk")
-        this.load = false;
-      }, 5000);
     }
   }
+
   public attachSignin(element) {
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
@@ -140,6 +135,34 @@ export class LoginComponent implements OnInit {
   //https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate
   public makeApiCallForSteps() {
     var stepsCount = 0;
+    var arrayOfTimes = [] as any[];
+    var arrayStepsOfToday = [] as any[];
+    //helpers
+    var hour0 = 0;
+    var hour1 = 0;
+    var hour2 = 0;
+    var hour3 = 0;
+    var hour4 = 0;
+    var hour5 = 0;
+    var hour6 = 0;
+    var hour7 = 0;
+    var hour8 = 0;
+    var hour9 = 0;
+    var hour10 = 0;
+    var hour11 = 0;
+    var hour12 = 0;
+    var hour13 = 0;
+    var hour14 = 0;
+    var hour15 = 0;
+    var hour16 = 0;
+    var hour17 = 0;
+    var hour18 = 0;
+    var hour19 = 0;
+    var hour20 = 0;
+    var hour21 = 0;
+    var hour22 = 0;
+    var hour23 = 0;
+
     var datasetID: string = this.setStartAndEndTimeInNanoSeconds();
     let self = this;
 
@@ -156,6 +179,117 @@ export class LoginComponent implements OnInit {
           for (let index = 0; index < response.result.point.length; index++) {
             stepsCount += response.result.point[index].value[0].intVal;
           }
+
+          //for detailView
+          for (let j = 0; j < response.result.point.length; j++) {
+            var date = new Date(response.result.point[j].startTimeNanos / 1000000);
+            // Hours part from the timestamp
+            var hours = date.getHours();
+
+            switch (hours) {
+              case 0:
+                hour0 += response.result.point[j].value[0].intVal;
+                break;
+              case 1:
+                hour1 += response.result.point[j].value[0].intVal;
+                break;
+              case 2:
+                hour2 += response.result.point[j].value[0].intVal;
+                break;
+              case 3:
+                hour3 += response.result.point[j].value[0].intVal;
+                break;
+              case 4:
+                hour4 += response.result.point[j].value[0].intVal;
+                break;
+              case 5:
+                hour5 += response.result.point[j].value[0].intVal;
+                break;
+              case 6:
+                hour6 += response.result.point[j].value[0].intVal;
+                break;
+              case 7:
+                hour7 += response.result.point[j].value[0].intVal;
+                break;
+              case 8:
+                hour8 += response.result.point[j].value[0].intVal;
+                break;
+              case 9:
+                hour9 += response.result.point[j].value[0].intVal;
+                break;
+              case 10:
+                hour10 += response.result.point[j].value[0].intVal;
+                break;
+              case 11:
+                hour11 += response.result.point[j].value[0].intVal;
+                break;
+              case 12:
+                hour12 += response.result.point[j].value[0].intVal;
+                break;
+              case 13:
+                hour13 += response.result.point[j].value[0].intVal;
+                break;
+              case 14:
+                hour14 += response.result.point[j].value[0].intVal;
+                break;
+              case 15:
+                hour15 += response.result.point[j].value[0].intVal;
+                break;
+              case 16:
+                hour16 += response.result.point[j].value[0].intVal;
+                break;
+              case 17:
+                hour17 += response.result.point[j].value[0].intVal;
+                break;
+              case 18:
+                hour18 += response.result.point[j].value[0].intVal;
+                break;
+              case 19:
+                hour19 += response.result.point[j].value[0].intVal;
+                break;
+              case 20:
+                hour20 += response.result.point[j].value[0].intVal;
+                break;
+              case 21:
+                hour21 += response.result.point[j].value[0].intVal;
+                break;
+              case 22:
+                hour22 += response.result.point[j].value[0].intVal;
+                break;
+              case 23:
+                hour23 += response.result.point[j].value[0].intVal;
+                break;
+            }
+            //console.log("timeStamp: " + response.result.point[j].startTimeNanos);
+          }
+
+          arrayStepsOfToday[0] = hour0;
+          arrayStepsOfToday[1] = hour1;
+          arrayStepsOfToday[2] = hour2;
+          arrayStepsOfToday[3] = hour3;
+          arrayStepsOfToday[4] = hour4;
+          arrayStepsOfToday[5] = hour5;
+          arrayStepsOfToday[6] = hour6;
+          arrayStepsOfToday[7] = hour6;
+          arrayStepsOfToday[8] = hour8;
+          arrayStepsOfToday[9] = hour9;
+          arrayStepsOfToday[10] = hour10;
+          arrayStepsOfToday[11] = hour11;
+          arrayStepsOfToday[12] = hour12;
+          arrayStepsOfToday[13] = hour13;
+          arrayStepsOfToday[14] = hour14;
+          arrayStepsOfToday[15] = hour15;
+          arrayStepsOfToday[16] = hour16;
+          arrayStepsOfToday[17] = hour17;
+          arrayStepsOfToday[18] = hour18;
+          arrayStepsOfToday[19] = hour19;
+          arrayStepsOfToday[20] = hour20;
+          arrayStepsOfToday[21] = hour21;
+          arrayStepsOfToday[22] = hour22;
+          arrayStepsOfToday[23] = hour23;
+
+          self._loginservice.timesOfToday = arrayOfTimes;
+          self._loginservice.stepsOfToday = arrayStepsOfToday;
           self._loginservice.steps = stepsCount;
           console.log("steps gesamt: " + stepsCount);
           resolve();
@@ -232,9 +366,9 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForFirstOfLastThreeDays() {
     var stepsCount = 0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3, 2);
     let self = this;
-    console.log("hier: "+datasetID);
+    console.log("hier: " + datasetID);
 
     var promise = new Promise((resolve, reject) => {
       gapi.client.load('fitness', 'v1', () => {
@@ -263,9 +397,9 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForSecondOfLastThreeDays() {
     var stepsCount = 0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2, 1);
     let self = this;
-    console.log("hier: "+datasetID);
+    console.log("hier: " + datasetID);
 
     var promise = new Promise((resolve, reject) => {
       gapi.client.load('fitness', 'v1', () => {
@@ -294,9 +428,9 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForThridOfLastThreeDays() {
     var stepsCount = 0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1, 0);
     let self = this;
-    console.log("hier: "+datasetID);
+    console.log("hier: " + datasetID);
 
     var promise = new Promise((resolve, reject) => {
       gapi.client.load('fitness', 'v1', () => {
@@ -325,7 +459,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForCaloriesForFirstOfLastThreeDays() {
     var caloriesCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3, 2);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -355,7 +489,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForCaloriesForSecondOfLastThreeDays() {
     var caloriesCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2, 1);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -385,7 +519,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForCaloriesForThridOfLastThreeDays() {
     var caloriesCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1, 0);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -415,7 +549,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForDistanceForFirstOfLastThreeDays() {
     var distanceCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3,2);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(3, 2);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -446,7 +580,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForDistanceForSecondOfLastThreeDays() {
     var distanceCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2,1);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(2, 1);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -477,7 +611,7 @@ export class LoginComponent implements OnInit {
 
   public makeApiCallForDistanceForThridOfLastThreeDays() {
     var distanceCount = 0.0;
-    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1,0);
+    var datasetID: string = this.setStartAndEndTimeInNanoSecondsForLastThreeDays(1, 0);
     let self = this;
 
     var promise = new Promise((resolve, reject) => {
@@ -600,7 +734,7 @@ export class LoginComponent implements OnInit {
         tmpStartTime.setSeconds(0);
       }
     }
-    result = tmpEndTime.getTime() + "000000"+"-"+tmpStartTime.getTime() + "000000";
+    result = tmpEndTime.getTime() + "000000" + "-" + tmpStartTime.getTime() + "000000";
     return result;
   }
 
