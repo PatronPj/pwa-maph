@@ -18,8 +18,8 @@
                 <a class="nav-link" (click)="navToTodaysdetail()" style="color:white;">Heute</a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" (click)="navToFaq()" style="color:white;">FAQ</a>
-                </li>
+                <a class="nav-link" (click)="navToFaq()" style="color:white;">FAQ</a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -82,11 +82,11 @@
         </div>
         <div *ngIf="_achieveSecondMedal" style="display:inline;">
             <img data-toggle="modal" data-target="#stepsModalCenter" src="assets/silverMedal.png" width="90" height="90"
-                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die 5.000 Schritte geschafft. Bleiben Sie aktiv, um weitere Erfolge zu erzielen.">
+                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die {{averageStepsGoal/2}} Schritte geschafft. Bleiben Sie aktiv, um weitere Erfolge zu erzielen.">
         </div>
         <div *ngIf="_achieveThirdMedal" style="display:inline;">
             <img data-toggle="modal" data-target="#steps2ModalCenter" src="assets/goldMedal.png" width="100" height="100"
-                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die 10.000 Schritte geschafft. Bleiben Sie auch in den kommenden Tagen aktiv, um weitere Erfolge zu erzielen.">
+                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die {{averageStepsGoal}} Schritte geschafft. Bleiben Sie auch in den kommenden Tagen aktiv, um weitere Erfolge zu erzielen.">
         </div>
 
         <div *ngIf="!_achieveFirstMedal" style="display:inline;">
@@ -95,11 +95,11 @@
         </div>
         <div *ngIf="!_achieveSecondMedal" style="display:inline;">
             <img src="assets/defaultMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
-                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie 5.000 Schritte, um die Silber-Medaille freizuschalten.">
+                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie {{(averageStepsGoal / 2).toFixed(0)}} Schritte, um die Silber-Medaille freizuschalten.">
         </div>
         <div *ngIf="!_achieveThirdMedal" style="display:inline;">
             <img src="assets/defaultMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
-                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie 10.000 Schritte, um die Gold-Medaille freizuschalten.">
+                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie {{averageStepsGoal}} Schritte, um die Gold-Medaille freizuschalten.">
         </div>
     </div>
 </div>
@@ -112,7 +112,7 @@
         <div class="card">
             <div class="card-body">
                 <div *ngIf="showCheckBox">
-                    <button style="float: right;" type="button" class="btn btn-outline-primary mr-2" placement="top"
+                    <button style="float: right;" type="button" class="btn btn-outline-warning mr-2" placement="top"
                         ngbTooltip="Leistungsbezogenes Ziel setzen?">
                         <strong>i</strong>
                     </button>
@@ -121,23 +121,34 @@
                 <h5 class="card-title">
                     <div *ngIf="!contentEditable">
                         <img src="assets/steps.png" width="40" height="40" alt="Schritte">
-                        Erzielen Sie 10000 Schritte heute
+                        Erzielen Sie 10.000 Schritte heute
                     </div>
                     <div *ngIf="contentEditable">
                         <img src="assets/steps.png" width="40" height="40" alt="Schritte">
-
                         Erzielen Sie {{averageStepsGoal}} Schritte heute
                     </div>
-
                 </h5>
                 <p class="card-text">Ihnen bleiben noch: {{_remainingTime}}</p>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                        aria-valuemax="100">{{stepsCount/100}}%</div>
+
+                <div *ngIf="!contentEditable">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" [style.width]="(stepsCount/100) + '%'"
+                            attr.aria-valuenow="{{stepsCount/100}}" aria-valuemin="0" aria-valuemax="100">
+                            {{stepsCount/100}}
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="contentEditable">
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" role="progressbar" [style.width]="percentage + '%'"
+                            attr.aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100">
+                            {{percentage}}
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <!-- Button trigger modal walking modal-->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#walkingModal">
+                <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#walkingModal">
                     Mehr Schritte erzielen
                 </button>
             </div>
@@ -152,12 +163,12 @@
                 </h5>
                 <p class="card-text">Ihre aktuelle Körpertemperatur</p>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 37%;" aria-valuenow="37" aria-valuemin="0"
-                        aria-valuemax="100">37</div>
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 37%;" aria-valuenow="37"
+                        aria-valuemin="0" aria-valuemax="100">37</div>
                 </div>
                 <br>
                 <!-- Button trigger modal breathing modal-->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#breathingModal">
+                <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#breathingModal">
                     Innere Ruhe finden
                 </button>
             </div>
@@ -302,7 +313,8 @@
                 Ersten Erfolg für heute gesammelt.
                 Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie
                 aktiv, um weitere Erfolge zu erzielen.
-                Gestern haben Sie {{yesterdaySteps}} Schritte und heute bereits: {{stepsCount}} Schritte erzielt. Fokusieren Sie sich auf Ihre Ziele und versuchen Sie sie zu erreichen.
+                Gestern haben Sie {{yesterdaySteps}} Schritte und heute bereits: {{stepsCount}} Schritte erzielt.
+                Fokusieren Sie sich auf Ihre Ziele und versuchen Sie sie zu erreichen.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
@@ -324,7 +336,7 @@
             </div>
             <div class="modal-body">
                 Zweiten Erfolg für heute gesammelt.
-                Sie haben heute bereits 5.000 Schritte erzielt. Bleiben Sie
+                Sie haben heute bereits {{averageStepsGoal/2}} Schritte erzielt. Bleiben Sie
                 aktiv, um weitere Erfolge zu erzielen.
             </div>
             <div class="modal-footer">
@@ -347,7 +359,7 @@
             </div>
             <div class="modal-body">
                 Starke Leistung! Sie haben Ihren dritten Erfolg für heute gesammelt.
-                Sie haben heute bereits 10.000 Schritte erzielt. Bleiben Sie auch in den kommenden Tagen
+                Sie haben heute bereits {{averageStepsGoal}} Schritte erzielt. Bleiben Sie auch in den kommenden Tagen
                 aktiv, um weitere Erfolge zu erzielen.
             </div>
             <div class="modal-footer">
@@ -369,7 +381,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                Ihnen fehlen nur noch einige Schritte, um die 5.000 Schritte zu erreichen. Somit würden Sie Ihren
+                Ihnen fehlen nur noch einige Schritte, um die {{averageStepsGoal/2}} Schritte zu erreichen. Somit würden Sie Ihren
                 zweiten Erfolg für heute erzielen.
                 Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto besser werden
                 Sie sich fühlen.
@@ -393,8 +405,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                Starke Leistung, Sie sind auf dem besten Wege die 10.000 Schritte zu erzielen. Ihnen fehlen nur
-                noch einige Schritte. Um Ihren dritten Erfolg für den heutigen Tag zu meistern, müssen Sie die 10.000
+                Starke Leistung, Sie sind auf dem besten Wege die {{averageStepsGoal}} Schritte zu erzielen. Ihnen fehlen nur
+                noch einige Schritte. Um Ihren dritten Erfolg für den heutigen Tag zu meistern, müssen Sie die {{averageStepsGoal}}
                 Schritte erzielen. Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto
                 besser werden
                 Sie sich fühlen.

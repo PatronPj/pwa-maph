@@ -26,6 +26,9 @@ export class LoginserviceService {
   caloriesSecondOfLastOfThree: any = 344;
   caloriesThirdOfLastOfThree: any = 874;
 
+  //checkbox for personalisation
+  isChecked: boolean = false;
+
   //for detailView
   timesOfToday = [] as any[];
   stepsOfToday = [0,0,0,0,0,0,0,0,123,234,344,100,234,0,0,0,0,123,456,788,0,0,0] as any[];

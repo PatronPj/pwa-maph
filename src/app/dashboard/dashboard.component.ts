@@ -6,8 +6,6 @@ import { Chart } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
-
-
 // jQuery Sign $
 declare let $: any;
 
@@ -69,53 +67,25 @@ export class DashboardComponent implements OnInit {
   caloriesCount: any;
 
   contentEditable: boolean = false;
-  averageStepsGoal = 6000;
+  averageStepsGoal = 10000;
+  percentage;
   remainigHours: number;
-  showCheckBox: boolean = false;
+  showCheckBox: boolean;
 
   yesterdaySteps: any = 6780;
 
   LineChart = [];
 
-  //ai for personalisation
-  toggleEditable(event) {
-    if (event.target.checked) {
-      var offset = 0;
-      this.contentEditable = true;
-      //compute average add offset
-      if(this.remainigHours > 15){
-        offset = 7000;
-      }
-      if(this.remainigHours < 15 && this.remainigHours > 10){
-        console.log("zwischen 15std und 10std");
-        offset = 5000;
-      }
-      if(this.remainigHours < 10 && this.remainigHours > 5){
-        console.log("zwischen 10std und 5std");
-        offset = 3500;
-      }
-      if(this.remainigHours < 5){
-        console.log("unter 5std");
-        offset = 1500;
-      }
-      $('[data-toggle="tooltip"]').tooltip();
-      this.averageStepsGoal = Math.floor( (this._loginservice.firstOfLastOfThree + this._loginservice.secondOfLastOfThree + this._loginservice.thirdOfLastOfThree) / 3);
-      this.averageStepsGoal += offset;
-    }
-    else{
-      this.contentEditable = false;
-    }
-  }
-  navToFaq(){
-    this.ngZone.run(() => this.router.navigate(['/faq'])).then();
-  }
-
-  navToTodaysdetail(){
-    this.ngZone.run(() => this.router.navigate(['/today'])).then();
+  getCurrentData(): void {
+    this.renderer.setProperty(this.usernameEl.nativeElement, 'innerHTML', '<span> Nutzername: ' + this._loginservice.userName + '</span>');
+    this.renderer.setProperty(this.emailEl.nativeElement, 'innerHTML', '<span> E-Mail: ' + this._loginservice.userEmail + '</span>');
+    this.renderer.setProperty(this.profileImgUrlEl.nativeElement, 'innerHTML', '<img class="card-img-top" src="' + this._loginservice.userProfileImgUrl + '" alt="Profilbild">');
   }
 
   ngOnInit() {
     let self = this;
+
+    this.showCheckBox = this._loginservice.isChecked;
 
     this.isFirstMedal = this.cookie.get("firstMedal");
     console.log("Heute ist der: " + new Date().toLocaleDateString() + " Cookie sagt: " + this.isFirstMedal);
@@ -129,39 +99,7 @@ export class DashboardComponent implements OnInit {
 
       self.yesterdaySteps = self._loginservice.thirdOfLastOfThree;
 
-      //achievements
-      if (self.stepsCount >= 5000) {
-        self._achieveSecondMedal = true;
-
-        if (!self.cookie.get("secondMedalModal").match("true")) {
-          self.cookie.set("secondMedalModal", "true");
-          setTimeout(function () {
-            $(self.modal2.nativeElement).modal('show');
-          }, 5000);
-
-        }
-        console.log("SecondMedal achieved: true");
-      }
-      else {
-        self._achieveSecondMedal = false;
-        self.cookie.set("secondMedalModal", "false");
-      }
-
-      if (self.stepsCount >= 10000) {
-        self._achieveThirdMedal = true;
-
-        if (!self.cookie.get("thirdMedalModal").match("true")) {
-          self.cookie.set("thirdMedalModal", "true");
-          setTimeout(function () {
-            $(self.modal3.nativeElement).modal('show');
-          }, 5000);
-        }
-        console.log("ThirdMedal achieved: true");
-      }
-      else {
-        self._achieveThirdMedal = false;
-        self.cookie.set("thirdMedalModal", "false");
-      }
+      self.achievements();
 
       //line chart
       self.LineChart = new Chart('lineChart', {
@@ -239,6 +177,7 @@ export class DashboardComponent implements OnInit {
       this._achieveFirstMedal = false;
     }
   }
+
   hideBreathing(): void {
     if (this.showBreathing) {
       this.showBreathing = false;
@@ -272,10 +211,84 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getCurrentData(): void {
-    this.renderer.setProperty(this.usernameEl.nativeElement, 'innerHTML', '<span> Nutzername: ' + this._loginservice.userName + '</span>');
-    this.renderer.setProperty(this.emailEl.nativeElement, 'innerHTML', '<span> E-Mail: ' + this._loginservice.userEmail + '</span>');
-    this.renderer.setProperty(this.profileImgUrlEl.nativeElement, 'innerHTML', '<img class="card-img-top" src="' + this._loginservice.userProfileImgUrl + '" alt="Profilbild">');
+  achievements() {
+    let self = this;
+    //achievements
+    if (self.stepsCount >= (self.averageStepsGoal / 2)) {
+      self._achieveSecondMedal = true;
+
+      if (!self.cookie.get("secondMedalModal").match("true")) {
+        self.cookie.set("secondMedalModal", "true");
+        setTimeout(function () {
+          $(self.modal2.nativeElement).modal('show');
+        }, 5000);
+
+      }
+      console.log("SecondMedal achieved: true");
+    }
+    else {
+      self._achieveSecondMedal = false;
+      self.cookie.set("secondMedalModal", "false");
+    }
+
+    if (self.stepsCount >= self.averageStepsGoal) {
+      self._achieveThirdMedal = true;
+
+      if (!self.cookie.get("thirdMedalModal").match("true")) {
+        self.cookie.set("thirdMedalModal", "true");
+        setTimeout(function () {
+          $(self.modal3.nativeElement).modal('show');
+        }, 5000);
+      }
+      console.log("ThirdMedal achieved: true");
+    }
+    else {
+      self._achieveThirdMedal = false;
+      self.cookie.set("thirdMedalModal", "false");
+    }
+  }
+
+  //ai for personalisation
+  toggleEditable(event) {
+    if (event.target.checked) {
+      this._loginservice.isChecked = true;
+      var offset = 0;
+      this.contentEditable = true;
+      //compute average add offset
+      if (this.remainigHours > 15) {
+        offset = 7000;
+      }
+      if (this.remainigHours < 15 && this.remainigHours > 10) {
+        console.log("zwischen 15std und 10std");
+        offset = 5000;
+      }
+      if (this.remainigHours < 10 && this.remainigHours > 5) {
+        console.log("zwischen 10std und 5std");
+        offset = 3500;
+      }
+      if (this.remainigHours < 5) {
+        console.log("unter 5std");
+        offset = 1500;
+      }
+      $('[data-toggle="tooltip"]').tooltip();
+      this.averageStepsGoal = Math.floor((this._loginservice.firstOfLastOfThree + this._loginservice.secondOfLastOfThree + this._loginservice.thirdOfLastOfThree) / 3);
+      this.averageStepsGoal += offset;
+      this.percentage = ((this.stepsCount / this.averageStepsGoal) * 100).toFixed(2);
+      this.achievements();
+    }
+    else {
+      this.averageStepsGoal = 10000;
+      this._loginservice.isChecked = false;
+      this.contentEditable = false;
+      this.achievements();
+    }
+  }
+  navToFaq() {
+    this.ngZone.run(() => this.router.navigate(['/faq'])).then();
+  }
+
+  navToTodaysdetail() {
+    this.ngZone.run(() => this.router.navigate(['/today'])).then();
   }
 
   logOut(): void {
