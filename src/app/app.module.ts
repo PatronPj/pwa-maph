@@ -12,11 +12,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LoginserviceService } from './services/loginservice.service';
 import {HttpClientModule} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
+import { FaqComponent } from './faq/faq.component';
+import { TodaysdetailComponent } from './todaysdetail/todaysdetail.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    routingComponents
+    routingComponents, FaqComponent, TodaysdetailComponent
   ],
   imports: [
     BrowserModule,

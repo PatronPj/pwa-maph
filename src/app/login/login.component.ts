@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoginserviceService } from '../services/loginservice.service'
 
 declare const gapi: any;
+// jQuery Sign $
+declare let $: any;
 
 @Component({
   selector: 'app-login',
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
   //helpers
   loggedInAlready: boolean = false;
   public stepsCounted: number = 0;
+  public load: boolean = false;
 
   get loggedIn(): boolean {
     return this._loginservice.loggedIn;
@@ -68,6 +71,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  public loading(){
+    if(this.load){
+      this.load = false;
+      console.log("loading true amk")
+    }
+    else{
+      this.load = true;
+      console.log("loading false amk")
+      setTimeout(function () {
+        console.log("loading timeout amk")
+        this.load = false;
+      }, 5000);
+    }
+  }
   public attachSignin(element) {
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
@@ -104,9 +121,16 @@ export class LoginComponent implements OnInit {
         this.makeApiCallForDistanceForFirstOfLastThreeDays();
         this.makeApiCallForDistanceForSecondOfLastThreeDays();
         this.makeApiCallForDistanceForThridOfLastThreeDays();
-
-        this.ngZone.run(() => this.router.navigate(['/dashboard'])).then();
+        this.loading();
+        let self = this;
+        /*
+        setTimeout(function () {
+          this.load = false;
+          //self.ngZone.run(() => self.router.navigate(['/dashboard'])).then();
+        }, 5000);
+        */
       }, (error) => {
+        this.loading();
         console.log("Login Error: " + error);
       });
   }
@@ -473,6 +497,7 @@ export class LoginComponent implements OnInit {
           console.log("distance third of last three days gesamt was: " + Math.floor(distanceRound));
 
           resolve();
+          self.ngZone.run(() => self.router.navigate(['/dashboard'])).then();
         }, function (reason) {
           console.log('Error: ' + reason.result.error.message + " -----");
           reject();
@@ -516,15 +541,15 @@ export class LoginComponent implements OnInit {
     for (var i = 0; i < 4; i++) {
       var d = new Date();
       if (i === 0) {
-        result.push("Heute");
+        result[i] = "Heute";
       }
       else {
         d.setDate(d.getDate() - i);
-        result.push(d.getDate().toString() + "." + month[d.getMonth()]);
+        result[i] = d.getDate().toString() + "." + month[d.getMonth()];
       }
     }
-    this._loginservice.lasteThreeDays = result.sort();
-    console.log("Letzten 3 Tage: " + result.sort());
+    this._loginservice.lasteThreeDays = result.reverse();
+    console.log("Last 3 Days: " + result);
   }
 
   private setStartAndEndTimeInNanoSeconds(): any {

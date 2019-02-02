@@ -1,0 +1,236 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #563d7c;">
+  <a class="navbar-brand" href="" style="color:white;">
+    <img src="assets/logo1.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+    Finish Depression
+  </a>
+  <button class="navbar-toggler btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+    aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+    aria-controls="navbarTogglerDemo02">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02" [ngbCollapse]="isCollapsed">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" (click)="navToDashboard()" style="color:white;">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="navToTodaysdetail()" style="color:white;">Heute</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="color:white;">FAQ <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <!-- Example single danger button -->
+        <div class="btn-group">
+          <button (click)="getCurrentData()" type="button" class="btn btn-outline-warning dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div #imgUrl class="dropdown-item">
+              <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCuVMUVlRYbWFWXsq8h6xomJxMG5dq0BWEWmJaFNngsG_e4My"
+                alt="Profilbild">
+            </div>
+            <div #username class="dropdown-item">
+            </div>
+            <div #email class="dropdown-item">
+            </div>
+            <div class="dropdown-item">
+              <button (click)="logOut()" type="button" class="btn btn-outline-danger">Abmelden</button>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="jumbotron jumbotron-fluid" style="background-color: #ffc107; padding: 1rem 1rem;">
+        <h1 class="display-4">FAQ - Fragen und Antworten</h1>
+        <p class="lead">Wie können wir Ihnen behilflich sein?
+          Viele unserer Nutzer stellen ähnliche Fragen. Hier haben wir diese Fragen gebündelt und erklären, wie Sie mit
+          Ihrer Depression / Depressiven in Ihrem Umfeld
+          umgehen. 
+          <br>
+          Vielleicht ist ja auch Ihre Frage dabei.</p>
+    </div>
+  </div>
+</div>
+
+<!--FAQ-->
+<div class="row">
+  <div class="col-sm-12">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link" id="nav-betroffene-tab" data-toggle="tab" href="#nav-betroffene" role="tab"
+          aria-controls="nav-betroffene" aria-selected="true">FAQ Betroffene</a>
+        <a class="nav-item nav-link" id="nav-umfeld-tab" data-toggle="tab" href="#nav-umfeld" role="tab" aria-controls="nav-umfeld"
+          aria-selected="false">FAQ Umfeld</a>
+      </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+      <!--Betroffene-->
+      <div class="tab-pane fade show " id="nav-betroffene" role="tabpanel" aria-labelledby="nav-betroffene-tab">
+        <!--FAQ Betroffene-->
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseBetroffeneOne" aria-expanded="true"
+                  aria-controls="collapseBetroffeneOne">
+                  Frage #1
+                </button>
+              </h5>
+            </div>
+
+            <div id="collapseBetroffeneOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseBetroffeneTwo"
+                  aria-expanded="false" aria-controls="collapseBetroffeneTwo">
+                  Frage #2
+                </button>
+              </h5>
+            </div>
+            <div id="collapseBetroffeneTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseBetroffeneThree"
+                  aria-expanded="false" aria-controls="collapseBetroffeneThree">
+                  Frage #3
+                </button>
+              </h5>
+            </div>
+            <div id="collapseBetroffeneThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---->
+
+      </div>
+
+      <!--Umfeld-->
+      <div class="tab-pane fade show " id="nav-umfeld" role="tabpanel" aria-labelledby="nav-umfeld-tab">
+        <!--FAQ Umfeld-->
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseUmfeldOne" aria-expanded="true"
+                  aria-controls="collapseUmfeldOne">
+                  Frage #1
+                </button>
+              </h5>
+            </div>
+
+            <div id="collapseUmfeldOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUmfeldTwo"
+                  aria-expanded="false" aria-controls="collapseUmfeldTwo">
+                  Frage #2
+                </button>
+              </h5>
+            </div>
+            <div id="collapseUmfeldTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseUmfeldThree"
+                  aria-expanded="false" aria-controls="collapseUmfeldThree">
+                  Frage #3
+                </button>
+              </h5>
+            </div>
+            <div id="collapseUmfeldThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+              <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                nesciunt
+                sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                labore
+                sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---->
+      </div>
+
+    </div>
+  </div>
+</div>

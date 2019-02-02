@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #563d7c;">
+    <a class="navbar-brand" href="" style="color:white;">
+      <img src="assets/logo1.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+      Finish Depression
+    </a>
+    <button class="navbar-toggler btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+      aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="navbarTogglerDemo02">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02" [ngbCollapse]="isCollapsed">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" (click)="navToDashboard()" style="color:white;">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="color:white;">Heute</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="navToFaq()" style="color:white;">FAQ</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <!-- Example single danger button -->
+          <div class="btn-group">
+            <button (click)="getCurrentData()" type="button" class="btn btn-outline-warning dropdown-toggle" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div #imgUrl class="dropdown-item">
+                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTCuVMUVlRYbWFWXsq8h6xomJxMG5dq0BWEWmJaFNngsG_e4My"
+                  alt="Profilbild">
+              </div>
+              <div #username class="dropdown-item">
+              </div>
+              <div #email class="dropdown-item">
+              </div>
+              <div class="dropdown-item">
+                <button (click)="logOut()" type="button" class="btn btn-outline-danger">Abmelden</button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="jumbotron jumbotron-fluid" style="background-color: #ffc107; padding: 1rem 1rem;">
+          <h1 class="display-4">Was haben Sie heute erreicht?</h1>
+          <p class="lead">
+            Sehen Sie zur welcher Uhrzeit, Sie aktiv waren.
+          </p>
+      </div>
+    </div>
+  </div>
+  
+  <!--DetailView-->
+  <div class="row">
+      <div class="col-sm-12" style="padding: 3rem 3rem;">
+          <canvas id="barChart"></canvas>
+      </div>
+  </div>

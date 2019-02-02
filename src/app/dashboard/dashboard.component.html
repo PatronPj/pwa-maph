@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #563d7c;">
-    <a class="navbar-brand" href="" style="color:white;">
+    <a class="navbar-brand" style="color:white;">
         <img src="assets/logo1.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
         Finish Depression
     </a>
@@ -12,14 +12,14 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02" [ngbCollapse]="isCollapsed">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color:white;">Dashboard <span class="sr-only">(current)</span></a>
+                <a class="nav-link" style="color:white;">Dashboard <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color:white;">Stimmung</a>
+                <a class="nav-link" (click)="navToTodaysdetail()" style="color:white;">Heute</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color:white;">Work-Life-Balance</a>
-            </li>
+                    <a class="nav-link" (click)="navToFaq()" style="color:white;">FAQ</a>
+                </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -78,33 +78,32 @@
         <h1 class="display-4">Erfolge</h1>
         <div *ngIf="_achieveFirstMedal" style="display:inline;">
             <img data-toggle="modal" data-target="#exampleModalCenter" src="assets/bronzeMedal.png" width="80" height="80"
-                class="d-inline-block align-top" alt="Erfolg bereits erzielt." title="Herzlichen Glückwunsch, Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie aktiv, um weitere Erfolgr zu erzielten.">
+                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie aktiv, um weitere Erfolge zu erzielen.">
         </div>
         <div *ngIf="_achieveSecondMedal" style="display:inline;">
             <img data-toggle="modal" data-target="#stepsModalCenter" src="assets/silverMedal.png" width="90" height="90"
-                class="d-inline-block align-top" alt="Erfolg bereits erzielt." title="Herzlichen Glückwunsch, Sie haben heute 2.500 Schritte erzielt. Bleiben Sie aktiv, um weitere Erfolge zu erzielten.">
+                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die 5.000 Schritte geschafft. Bleiben Sie aktiv, um weitere Erfolge zu erzielen.">
         </div>
         <div *ngIf="_achieveThirdMedal" style="display:inline;">
             <img data-toggle="modal" data-target="#steps2ModalCenter" src="assets/goldMedal.png" width="100" height="100"
-                class="d-inline-block align-top" alt="Erfolg bereits erzielt." title="Herzlichen Glückwunsch, Sie haben heute 100% in allen Bereichen erzielt. Bleiben Sie aktiv, um weitere Erfolge zu erzielten.">
+                class="d-inline-block align-top" alt="Erfolg bereits erzielt." placement="top" ngbTooltip="Sehr gut, Sie haben heute die 10.000 Schritte geschafft. Bleiben Sie auch in den kommenden Tagen aktiv, um weitere Erfolge zu erzielen.">
         </div>
 
         <div *ngIf="!_achieveFirstMedal" style="display:inline;">
             <img src="assets/defaultMedal.png" width="80" height="80" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
-                title="Kein Erfolg erzielt. Melden Sie sich jeden Tag an, um diesen Erfolg zu erzielen.">
+                placement="top" ngbTooltip="Kein Erfolg erzielt. Melden Sie sich jeden Tag an, um die Bronze-Medaille freizuschalten.">
         </div>
         <div *ngIf="!_achieveSecondMedal" style="display:inline;">
             <img src="assets/defaultMedal.png" width="90" height="90" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
-                title="Kein Erfolg erzielt. Erzielen Sie 5.000 Schritte, um diesen Erfolg zu erzielen.">
+                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie 5.000 Schritte, um die Silber-Medaille freizuschalten.">
         </div>
         <div *ngIf="!_achieveThirdMedal" style="display:inline;">
             <img src="assets/defaultMedal.png" width="100" height="100" class="d-inline-block align-top" alt="Erfolg noch nicht erzielt."
-                title="Kein Erfolg erzielt. Erzielen Sie 10.000 Schritte, um diesen Erfolg zu erzielen.">
+                placement="top" ngbTooltip="Kein Erfolg erzielt. Erzielen Sie 10.000 Schritte, um die Gold-Medaille freizuschalten.">
         </div>
     </div>
 </div>
 <!--Achievements END-->
-
 <br>
 <br>
 <br>
@@ -112,9 +111,24 @@
     <div class="col-sm-6" style="padding: 0rem 3rem;">
         <div class="card">
             <div class="card-body">
+                <div *ngIf="showCheckBox">
+                    <button style="float: right;" type="button" class="btn btn-outline-primary mr-2" placement="top"
+                        ngbTooltip="Leistungsbezogenes Ziel setzen?">
+                        <strong>i</strong>
+                    </button>
+                    <input type="checkbox" style="float: right;" (change)="toggleEditable($event)">
+                </div>
                 <h5 class="card-title">
-                    <img src="assets/steps.png" width="40" height="40" alt="Schritte">
-                    Erzielen Sie 10.000 Schritte am Tag
+                    <div *ngIf="!contentEditable">
+                        <img src="assets/steps.png" width="40" height="40" alt="Schritte">
+                        Erzielen Sie 10000 Schritte heute
+                    </div>
+                    <div *ngIf="contentEditable">
+                        <img src="assets/steps.png" width="40" height="40" alt="Schritte">
+
+                        Erzielen Sie {{averageStepsGoal}} Schritte heute
+                    </div>
+
                 </h5>
                 <p class="card-text">Ihnen bleiben noch: {{_remainingTime}}</p>
                 <div class="progress">
@@ -124,7 +138,7 @@
                 <br>
                 <!-- Button trigger modal walking modal-->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#walkingModal">
-                    Übung starten
+                    Mehr Schritte erzielen
                 </button>
             </div>
         </div>
@@ -133,18 +147,18 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">
-                    <img src="assets/heartrate.png" width="40" height="40" alt="Schritte">
-                    Die optimale Herzfrequenz liegt bei: 60-70
+                    <img src="assets/temperature.png" width="40" height="40" alt="Schritte">
+                    Die normal Körpertemperatur liegt bei 36,3 bis 37,4°C
                 </h5>
-                <p class="card-text">Ihre aktuelle Herzfrequenz</p>
+                <p class="card-text">Ihre aktuelle Körpertemperatur</p>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0"
-                        aria-valuemax="100">65</div>
+                    <div class="progress-bar" role="progressbar" style="width: 37%;" aria-valuenow="37" aria-valuemin="0"
+                        aria-valuemax="100">37</div>
                 </div>
                 <br>
                 <!-- Button trigger modal breathing modal-->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#breathingModal">
-                    Übung starten
+                    Innere Ruhe finden
                 </button>
             </div>
         </div>
@@ -200,7 +214,7 @@
 
                 <div *ngIf="showBreathing">
                     <div align="center">
-                        Noch {{ _counter}} Sekunden...
+                        Noch {{_counter}} Sekunden...
                     </div>
                     <br>
                     <br>
@@ -267,7 +281,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
             </div>
         </div>
     </div>
@@ -279,18 +293,19 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Super, {{_username}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Erste Belohnung gesammelt.
+                Ersten Erfolg für heute gesammelt.
                 Sie haben sich heute angemeldet und einen Schritt vorwärts gemacht. Bleiben Sie
                 aktiv, um weitere Erfolge zu erzielen.
+                Gestern haben Sie {{yesterdaySteps}} Schritte und heute bereits: {{stepsCount}} Schritte erzielt. Fokusieren Sie sich auf Ihre Ziele und versuchen Sie sie zu erreichen.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
             </div>
         </div>
     </div>
@@ -302,18 +317,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Super, {{_username}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Zweite Belohnung gesammelt.
+                Zweiten Erfolg für heute gesammelt.
                 Sie haben heute bereits 5.000 Schritte erzielt. Bleiben Sie
                 aktiv, um weitere Erfolge zu erzielen.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
             </div>
         </div>
     </div>
@@ -325,18 +340,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Herzlichen Glückwunsch, {{_username}}</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Super, {{_username}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Dritte Belohnung gesammelt.
+                Starke Leistung! Sie haben Ihren dritten Erfolg für heute gesammelt.
                 Sie haben heute bereits 10.000 Schritte erzielt. Bleiben Sie auch in den kommenden Tagen
                 aktiv, um weitere Erfolge zu erzielen.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
             </div>
         </div>
     </div>
@@ -357,8 +372,7 @@
                 Ihnen fehlen nur noch einige Schritte, um die 5.000 Schritte zu erreichen. Somit würden Sie Ihren
                 zweiten Erfolg für heute erzielen.
                 Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto besser werden
-                Sie
-                sich fühlen.
+                Sie sich fühlen.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>
@@ -380,13 +394,10 @@
             </div>
             <div class="modal-body">
                 Starke Leistung, Sie sind auf dem besten Wege die 10.000 Schritte zu erzielen. Ihnen fehlen nur
-                noch
-                einige Schritte. Um Ihren dritten Erfolg für den heutigen Tag zu meistern, müssen Sie die 10.000
-                Schritte
-                erzielen.
-                Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto besser werden
-                Sie
-                sich fühlen.
+                noch einige Schritte. Um Ihren dritten Erfolg für den heutigen Tag zu meistern, müssen Sie die 10.000
+                Schritte erzielen. Nehmen Sie sich die Zeit und starten Sie eine Laufübung! Je aktiver Sie sind, desto
+                besser werden
+                Sie sich fühlen.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Verstanden</button>

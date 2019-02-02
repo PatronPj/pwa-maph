@@ -30,32 +30,32 @@
       <div class="col-sm-8">
         <div class="jumbotron jumbotron-fluid" style="background-color: white; padding: 0rem 1rem;">
           <div class="container">
-            <h1 class="display-4">Willkommen auf Finish Depression</h1>
+            <h1 class="display-4">Willkommen bei Finish Depression</h1>
             <p class="lead">
-              Bei Finish Depression handelt es sich um einen Fitness-Service, der präventiv bei Gründerinnen und
-              Gründern
-              von
-              Start-Ups Depressionen vorbeugen soll.
-              Mithilfe von Finish Depression und unseren Funktionalitäten werden wir Ihre Depression bekämpfen. Finish
+              Bei <strong>Finish Depression</strong> handelt es sich um einen Fitness-Service, der präventiv bei <strong>Gründerinnen</strong> und
+              <strong>Gründern</strong> von <strong>Start-Ups</strong> Depressionen vorbeugen soll.
+              Mithilfe von <strong>Finish Depression</strong> und unseren Funktionalitäten werden wir Ihre Depression bekämpfen. Finish
               Depression hilft Ihnen, indem Sie Ihre tägliche Aktivität
-              in Form von Schritten, Herzfrequenz etc. beobachtet und dementsprechend Handlungen von Ihnen fordert.
+              in Form von Schritten, Kalorien, Körpertemperatur etc. beobachtet und dementsprechend Handlungen von Ihnen fordert.
             </p>
             <p class="lead">
-              Melden Sie sich jetzt mit Ihrem Google-Konto an und legen Sie los!
+              Melden Sie sich jetzt mit Ihrem Google-Konto an und meistern Sie den ersten Schritt zur Besserung!
             </p>
           </div>
         </div>
       </div>
+
       <div class="col-sm-4">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Anmelden</h5>
+
             <div *ngIf="!loggedInAlready">
               <h6 class="card-subtitle mb-2 text-muted">Nutzen Sie ihr Google-Konto.</h6>
-              <p class="card-text">Um auf alle Funktionalitäten von Finish Depression zugreifen zu können, müssen Sie
+              <p class="card-text">Um auf alle Funktionalitäten von <strong>Finish Depression</strong> zugreifen zu können, müssen Sie
                 über
                 ein Google-Konto verfügen.</p>
-              <div id="googleBtn" class="btn btn-outline-warning">
+              <div id="googleBtn" class="btn btn-outline-warning" (click)="loading()">
                 <img src="http://www.stickpng.com/assets/images/5847f9cbcef1014c0b5e48c8.png" height="20" alt="Google SignIn">
                 Anmelden mit Google
               </div>
@@ -63,6 +63,7 @@
               <a href="https://accounts.google.com/ServiceLogin" class="card-link" style="font-size:10px;">Kein
                 Google-Konto? Registrieren Sie sich jetzt!</a>
             </div>
+
             <div *ngIf="loggedInAlready">
               <h6 class="card-subtitle mb-2 text-muted">Sie sind bereits angemeldet.</h6>
               <button type="button" class="btn btn-outline-warning" (click)="routeToDashboard()">
@@ -72,6 +73,7 @@
                 Abmelden
               </button>
             </div>
+
           </div>
         </div>
       </div>

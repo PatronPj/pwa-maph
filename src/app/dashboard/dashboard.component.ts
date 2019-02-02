@@ -6,6 +6,8 @@ import { Chart } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
+
+
 // jQuery Sign $
 declare let $: any;
 
@@ -36,17 +38,17 @@ export class DashboardComponent implements OnInit {
     this.modal.nativeElement.click();
   }
 
+  //helpers
   showBreathing: boolean = false;
   _breathingHelp: string = "einatmen..."
   finishedBreathing: boolean = false;
   showBtns: boolean = true;
 
+  _username: string;
+
   _counter = 60;
   _counter2 = 11;
 
-  _username: string;
-  _mail: string;
-  _imgUrl: string;
   _currentDate: string;
   _remainingTime: string;
   _medal: string;
@@ -66,7 +68,51 @@ export class DashboardComponent implements OnInit {
   distanceCount: any;
   caloriesCount: any;
 
+  contentEditable: boolean = false;
+  averageStepsGoal = 6000;
+  remainigHours: number;
+  showCheckBox: boolean = false;
+
+  yesterdaySteps: any = 6780;
+
   LineChart = [];
+
+  //ai for personalisation
+  toggleEditable(event) {
+    if (event.target.checked) {
+      var offset = 0;
+      this.contentEditable = true;
+      //compute average add offset
+      if(this.remainigHours > 15){
+        offset = 7000;
+      }
+      if(this.remainigHours < 15 && this.remainigHours > 10){
+        console.log("zwischen 15std und 10std");
+        offset = 5000;
+      }
+      if(this.remainigHours < 10 && this.remainigHours > 5){
+        console.log("zwischen 10std und 5std");
+        offset = 3500;
+      }
+      if(this.remainigHours < 5){
+        console.log("unter 5std");
+        offset = 1500;
+      }
+      $('[data-toggle="tooltip"]').tooltip();
+      this.averageStepsGoal = Math.floor( (this._loginservice.firstOfLastOfThree + this._loginservice.secondOfLastOfThree + this._loginservice.thirdOfLastOfThree) / 3);
+      this.averageStepsGoal += offset;
+    }
+    else{
+      this.contentEditable = false;
+    }
+  }
+  navToFaq(){
+    this.ngZone.run(() => this.router.navigate(['/faq'])).then();
+  }
+
+  navToTodaysdetail(){
+    this.ngZone.run(() => this.router.navigate(['/today'])).then();
+  }
 
   ngOnInit() {
     let self = this;
@@ -74,10 +120,14 @@ export class DashboardComponent implements OnInit {
     this.isFirstMedal = this.cookie.get("firstMedal");
     console.log("Heute ist der: " + new Date().toLocaleDateString() + " Cookie sagt: " + this.isFirstMedal);
 
+    this._username = this._loginservice.userName;
+
     setTimeout(function () {
       self.stepsCount = self._loginservice.steps;
       self.distanceCount = self._loginservice.distance;
       self.caloriesCount = self._loginservice.calories;
+
+      self.yesterdaySteps = self._loginservice.thirdOfLastOfThree;
 
       //achievements
       if (self.stepsCount >= 5000) {
@@ -87,8 +137,8 @@ export class DashboardComponent implements OnInit {
           self.cookie.set("secondMedalModal", "true");
           setTimeout(function () {
             $(self.modal2.nativeElement).modal('show');
-          }, 3000);
-          
+          }, 5000);
+
         }
         console.log("SecondMedal achieved: true");
       }
@@ -104,7 +154,7 @@ export class DashboardComponent implements OnInit {
           self.cookie.set("thirdMedalModal", "true");
           setTimeout(function () {
             $(self.modal3.nativeElement).modal('show');
-          }, 3000);
+          }, 5000);
         }
         console.log("ThirdMedal achieved: true");
       }
@@ -138,14 +188,14 @@ export class DashboardComponent implements OnInit {
         }
       });
 
-      //artificial intelligence gag amk
+      //artificial intelligence for motivation
       if (self.stepsCount >= 3000 && self.stepsCount <= 5000) {
         self._aiFirstMotivation = true;
         if (!self.cookie.get("aiFirstMotivation").match("true")) {
           self.cookie.set("aiFirstMotivation", "true");
           setTimeout(function () {
             $(self.modal4.nativeElement).modal('show');
-          }, 7000);
+          }, 20000);
         }
         console.log("aiFirstMotivation achieved: true");
       }
@@ -155,15 +205,16 @@ export class DashboardComponent implements OnInit {
           self.cookie.set("aiSecondMotivation", "true");
           setTimeout(function () {
             $(self.modal5.nativeElement).modal('show');
-          }, 7000);
+          }, 20000);
         }
         console.log("aiSecondMotivation achieved: true");
       }
-    }, 5000);
+      self.showCheckBox = true;
+    }, 2000);
 
     this._currentDate = new Date().toLocaleDateString();
-    this._username = this._loginservice.userName;
     var hours = 23 - new Date().getHours();
+    this.remainigHours = hours;
     var minutes = (new Date().getMinutes() - 60) * -1;
     this._remainingTime = hours.toString() + " Stunden und " + minutes.toString() + " Minuten";
 
@@ -219,16 +270,6 @@ export class DashboardComponent implements OnInit {
         }
       }, 1000)
     }
-  }
-
-  get username(): string {
-    return this._loginservice.userName;
-  }
-  get useremail(): string {
-    return this._loginservice.userEmail;
-  }
-  get userprofileimgurl(): string {
-    return this._loginservice.userProfileImgUrl;
   }
 
   getCurrentData(): void {
