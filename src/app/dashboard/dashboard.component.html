@@ -116,13 +116,14 @@
                         ngbTooltip="Leistungsbezogenes Ziel setzen?">
                         <strong>i</strong>
                     </button>
-                    <input type="checkbox" style="float: right;" (change)="toggleEditable($event)">
+                    <input type="checkbox" style="float: right;" (change)="toggleEditable($event)" [checked]="statusCheckBox">
                 </div>
                 <h5 class="card-title">
                     <div *ngIf="!contentEditable">
                         <img src="assets/steps.png" width="40" height="40" alt="Schritte">
                         Erzielen Sie 10.000 Schritte heute
                     </div>
+                    
                     <div *ngIf="contentEditable">
                         <img src="assets/steps.png" width="40" height="40" alt="Schritte">
                         Erzielen Sie {{averageStepsGoal}} Schritte heute

@@ -71,6 +71,7 @@ export class DashboardComponent implements OnInit {
   percentage;
   remainigHours: number;
   showCheckBox: boolean;
+  statusCheckBox = false;
 
   yesterdaySteps: any = 6780;
 
@@ -84,6 +85,46 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     let self = this;
+
+    if (!this.cookie.get("statusCheckBox").match("true")) {
+      console.log("false amk ngOnInit");
+      this.statusCheckBox = false;
+      this.contentEditable = false;
+      this.averageStepsGoal = 10000;
+      this.cookie.set("statusCheckBox", "false");
+    }
+    if (this.cookie.get("statusCheckBox").match("true")) {
+      //redundant STart
+      var offset = 0;
+      this.contentEditable = true;
+      //compute average add offset
+      if (this.remainigHours > 15) {
+        offset = 7000;
+      }
+      if (this.remainigHours < 15 && this.remainigHours > 10) {
+        console.log("zwischen 15std und 10std");
+        offset = 5000;
+      }
+      if (this.remainigHours < 10 && this.remainigHours > 5) {
+        console.log("zwischen 10std und 5std");
+        offset = 3500;
+      }
+      if (this.remainigHours < 5) {
+        console.log("unter 5std");
+        offset = 1500;
+      }
+      this.averageStepsGoal = Math.floor((this._loginservice.firstOfLastOfThree + this._loginservice.secondOfLastOfThree + this._loginservice.thirdOfLastOfThree) / 3);
+      this.averageStepsGoal += offset;
+      this.percentage = ((this._loginservice.steps / this.averageStepsGoal) * 100).toFixed(2);
+      //redundant End
+
+      console.log("true amk ngOnInit percentage:" + this.percentage) ;
+      this.statusCheckBox = true;
+      this.contentEditable = true;
+      this.cookie.set("statusCheckBox", "true");
+    }
+
+    console.log("checkbox status: " + this.statusCheckBox);
 
     this.showCheckBox = this._loginservice.isChecked;
 
@@ -274,12 +315,22 @@ export class DashboardComponent implements OnInit {
       this.averageStepsGoal = Math.floor((this._loginservice.firstOfLastOfThree + this._loginservice.secondOfLastOfThree + this._loginservice.thirdOfLastOfThree) / 3);
       this.averageStepsGoal += offset;
       this.percentage = ((this.stepsCount / this.averageStepsGoal) * 100).toFixed(2);
+
+      console.log("true amk toggle");
+      this.statusCheckBox = true;
+      this.cookie.set("statusCheckBox", "true");
+
       this.achievements();
     }
     else {
       this.averageStepsGoal = 10000;
       this._loginservice.isChecked = false;
       this.contentEditable = false;
+
+      console.log("false amk toggle");
+      this.statusCheckBox = false;
+      this.cookie.set("statusCheckBox", "false");
+
       this.achievements();
     }
   }

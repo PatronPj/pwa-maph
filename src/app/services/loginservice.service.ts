@@ -31,7 +31,7 @@ export class LoginserviceService {
 
   //for detailView
   timesOfToday = [] as any[];
-  stepsOfToday = [0,0,0,0,0,0,0,0,123,234,344,100,234,0,0,0,0,123,456,788,0,0,0] as any[];
+  stepsOfToday = [45,0,0,0,0,0,0,0,123,234,0,0,0,0,0,0,0,0,0,0,0,0,0] as any[];
 
   constructor() { }
 
