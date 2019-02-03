@@ -32,11 +32,14 @@
           <div class="container">
             <h1 class="display-4">Willkommen bei Finish Depression</h1>
             <p class="lead">
-              Bei <strong>Finish Depression</strong> handelt es sich um einen Fitness-Service, der präventiv bei <strong>Gründerinnen</strong> und
+              Bei <strong>Finish Depression</strong> handelt es sich um einen Fitness-Service, der präventiv bei
+              <strong>Gründerinnen</strong> und
               <strong>Gründern</strong> von <strong>Start-Ups</strong> Depressionen vorbeugen soll.
-              Mithilfe von <strong>Finish Depression</strong> und unseren Funktionalitäten werden wir Ihre Depression bekämpfen. Finish
+              Mithilfe von <strong>Finish Depression</strong> und unseren Funktionalitäten werden wir Ihre Depression
+              bekämpfen. Finish
               Depression hilft Ihnen, indem Sie Ihre tägliche Aktivität
-              in Form von Schritten, Kalorien, Körpertemperatur etc. beobachtet und dementsprechend Handlungen von Ihnen fordert.
+              in Form von Schritten, Kalorien, Körpertemperatur etc. beobachtet und dementsprechend Handlungen von
+              Ihnen fordert.
             </p>
             <p class="lead">
               Melden Sie sich jetzt mit Ihrem Google-Konto an und meistern Sie den ersten Schritt zur Besserung!
@@ -51,17 +54,30 @@
             <h5 class="card-title">Anmelden</h5>
 
             <div *ngIf="!loggedInAlready">
-              <h6 class="card-subtitle mb-2 text-muted">Nutzen Sie ihr Google-Konto.</h6>
-              <p class="card-text">Um auf alle Funktionalitäten von <strong>Finish Depression</strong> zugreifen zu können, müssen Sie
-                über
-                ein Google-Konto verfügen.</p>
-              <div id="googleBtn" class="btn btn-outline-warning" (click)="loading()">
-                <img src="http://www.stickpng.com/assets/images/5847f9cbcef1014c0b5e48c8.png" height="20" alt="Google SignIn">
-                Anmelden mit Google
+
+              <div *ngIf="isLoading">
+                <span ng-show="load" class="loader">
+                  <div class="spinner-grow text-warning" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </span>
               </div>
-              <br>
-              <a href="https://accounts.google.com/ServiceLogin" class="card-link" style="font-size:10px;">Kein
-                Google-Konto? Registrieren Sie sich jetzt!</a>
+
+              <div *ngIf="!isLoading">
+                <h6 class="card-subtitle mb-2 text-muted">Nutzen Sie ihr Google-Konto.</h6>
+                <p class="card-text">Um auf alle Funktionalitäten von <strong>Finish Depression</strong> zugreifen zu
+                  können, müssen Sie
+                  über
+                  ein Google-Konto verfügen.</p>
+                <div id="googleBtn" class="btn btn-outline-warning" (click)="loading()">
+                  <img src="http://www.stickpng.com/assets/images/5847f9cbcef1014c0b5e48c8.png" height="20" alt="Google SignIn">
+                  Anmelden mit Google
+                </div>
+                <br>
+                <a href="https://accounts.google.com/ServiceLogin" class="card-link" style="font-size:10px;">Kein
+                  Google-Konto? Registrieren Sie sich jetzt!</a>
+              </div>
+
             </div>
 
             <div *ngIf="loggedInAlready">

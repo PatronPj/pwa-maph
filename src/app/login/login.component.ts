@@ -21,14 +21,16 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoading = false;
     this.loggedInAlready = this._loginservice.loggedIn;
-    console.log("nach: " + this.loggedInAlready);
   }
 
   //gapi
   public request: any;
   public auth2: any;
   public client: any;
+
+  public isLoading = false;
 
   //CREDENTIALS
   //google projekt: DevelopStartUpTheraphy
@@ -72,15 +74,23 @@ export class LoginComponent implements OnInit {
   }
 
   public loading() {
-    if (this.load) {
-      this.load = false;
-    }
-    else {
-      this.load = true;
-    }
+    var thing = this;
+    thing.isLoading = true;
+    var timeout = setTimeout((function () {
+      thing.isLoading = false;
+    }), 10000);
+  }
+
+  public stopLoading() {
+    var thing = this;
+    thing.isLoading = false;
+    var timer3 = setTimeout((function () {
+      thing.isLoading = false;
+    }), 1000);
   }
 
   public attachSignin(element) {
+
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
         let profile = googleUser.getBasicProfile();
@@ -97,8 +107,9 @@ export class LoginComponent implements OnInit {
 
         this._loginservice.firstMedal = new Date().toLocaleDateString();
         this._loginservice.loggedIn = true;
-        this.loggedInAlready = this._loginservice.loggedIn;
+        this.loggedInAlready = true;
         this.cookie.set("firstMedal", new Date().toLocaleDateString());
+        this.isLoading = true;
 
         this.makeApiCallForSteps();
         this.makeApiCallForDistance();
@@ -118,14 +129,20 @@ export class LoginComponent implements OnInit {
         this.makeApiCallForDistanceForThridOfLastThreeDays();
         this.loading();
         let self = this;
-        /*
-        setTimeout(function () {
-          this.load = false;
-          //self.ngZone.run(() => self.router.navigate(['/dashboard'])).then();
-        }, 5000);
-        */
+        var thing = this;
+
+        var timeout = setTimeout((function () {
+          thing.load = false;
+          thing.isLoading = false;
+          thing.ngZone.run(() => thing.router.navigate(['/dashboard'])).then();
+        }), 5000);
+
+
       }, (error) => {
-        this.loading();
+        var thing = this;
+        var timeout = setTimeout((function () {
+          thing.isLoading = false;
+        }), 1000);
         console.log("Login Error: " + error);
       });
   }
@@ -175,6 +192,8 @@ export class LoginComponent implements OnInit {
           //time in NanoSeconds 19 literals, milliseconds has 13 lierals 
           datasetId: datasetID,
         }).then(function (response) {
+          self.isLoading = true; // Add this line
+
           //console.log('response body:, ' + response.body);
           for (let index = 0; index < response.result.point.length; index++) {
             stepsCount += response.result.point[index].value[0].intVal;
@@ -631,7 +650,6 @@ export class LoginComponent implements OnInit {
           console.log("distance third of last three days gesamt was: " + Math.floor(distanceRound));
 
           resolve();
-          self.ngZone.run(() => self.router.navigate(['/dashboard'])).then();
         }, function (reason) {
           console.log('Error: ' + reason.result.error.message + " -----");
           reject();
